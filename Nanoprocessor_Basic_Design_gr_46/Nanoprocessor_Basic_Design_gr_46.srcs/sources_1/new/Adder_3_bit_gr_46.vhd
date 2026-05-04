@@ -31,13 +31,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Adder_3bit_gr_46 is
+entity Adder_3_bit_gr_46 is
     Port ( A : in STD_LOGIC_VECTOR (2 downto 0);
            S : out STD_LOGIC_VECTOR (2 downto 0);
            C_out : out STD_LOGIC);
-end Adder_3bit_gr_46;
+end Adder_3_bit_gr_46;
 
-architecture Behavioral of Adder_3bit_gr_46 is
+architecture Behavioral of Adder_3_bit_gr_46 is
     component FA_gr_46
         port (
             A: in std_logic;

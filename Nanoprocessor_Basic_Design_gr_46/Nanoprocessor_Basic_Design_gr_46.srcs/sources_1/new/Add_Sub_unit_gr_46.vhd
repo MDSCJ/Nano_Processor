@@ -32,17 +32,17 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 
-entity Add_Sub_Unit_gr_46 is
+entity Add_Sub_unit_gr_46 is
     Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
            B : in STD_LOGIC_VECTOR (3 downto 0);
            Add_Sub_Sel : in STD_LOGIC;
            S : out STD_LOGIC_VECTOR (3 downto 0);
            Carry : out STD_LOGIC;
            Zero : out STD_LOGIC);
-end Add_Sub_Unit_gr_46;
+end Add_Sub_unit_gr_46;
 
-architecture Behavioral of Add_Sub_Unit_gr_46 is
-    component RCA_4_gr_46
+architecture Behavioral of Add_Sub_unit_gr_46 is
+    component RCA_4_bit_gr_46
         Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
                B : in STD_LOGIC_VECTOR (3 downto 0);
                C_in : in STD_LOGIC;
@@ -58,7 +58,7 @@ begin
     B_new(2) <= Add_Sub_Sel XOR B(2);
     B_new(3) <= Add_Sub_Sel XOR B(3);
 
-    RCA_4_0: RCA_4_gr_46
+    RCA_4_0: RCA_4_bit_gr_46
         Port map (
             A => A,
             B => B_new,

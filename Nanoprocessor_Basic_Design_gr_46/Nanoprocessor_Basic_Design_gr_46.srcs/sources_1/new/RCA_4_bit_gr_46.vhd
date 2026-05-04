@@ -31,15 +31,15 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity RCA_4_gr_46 is
+entity RCA_4_bit_gr_46 is
     Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
            B : in STD_LOGIC_VECTOR (3 downto 0);
            C_in : in STD_LOGIC;
            S : out STD_LOGIC_VECTOR (3 downto 0);
            C_out : out STD_LOGIC);
-end RCA_4_gr_46;
+end RCA_4_bit_gr_46;
 
-architecture Behavioral of RCA_4_gr_46 is
+architecture Behavioral of RCA_4_bit_gr_46 is
     component FA_gr_46
         port (
             A: in std_logic;
