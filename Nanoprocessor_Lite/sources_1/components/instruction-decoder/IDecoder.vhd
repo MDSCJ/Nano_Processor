@@ -6,14 +6,24 @@ use work.constants.all;
 use work.ALU_H.all;
 
 -- 8-bit Instruction Decoder
--- Instruction Format (8 bits):
--- Bits 7-6: Operation type (00=Arithmetic, 01=Move, 11=Jump)
--- For Arithmetic: Bits 5-4 = sub-op, Bits 3-2 = RegA, Bits 1-0 = RegB
--- For Move: Bits 5-4 = mode, Bits 3-2 = destination reg, Bits 1-0 = source/address_lo
+-- Instruction Format (8 bits, MSB to LSB):
+-- Bits [7:6] - Primary Opcode:
+--   00 = Arithmetic (ALU)
+--   01 = Load (RAM to Register)
+--   10 = Store (Register to RAM)
+--   11 = Jump (Control Flow)
+--
+-- Arithmetic (00): Bits [5:4]=sub-op, Bits [3:2]=Dest/Src1, Bits [1:0]=Src2
+-- Load (01): Bits [5:4]=Dest Register, Bits [3:0]=RAM Address
+-- Store (10): Bits [5:4]=Source Register, Bits [3:0]=RAM Address
+-- Jump (11): Bits [5:4]=Condition, Bits [3:0]=Jump Address
 entity IDecoder is
     port(
         I : in instruction_bus;         -- 8-bit instruction
-        RCJump : in data_bus;           -- Register value for conditional jump
+        RCJump : in data_bus;           -- Register value for conditional jump (ALU result)
+        Zero_Flag : in std_logic;       -- Zero flag from ALU
+        Carry_Flag : in std_logic;      -- Carry flag from ALU
+        Negative_Flag : in std_logic;   -- Negative flag from ALU
         REn : out register_address;     -- Register Enable (which register to write)
         RSA : out register_address;     -- Register Select A (operand 1)
         RSB : out register_address;     -- Register Select B (operand 2)
@@ -31,17 +41,17 @@ end IDecoder;
 architecture Behavioral of IDecoder is
     signal Op_Type : std_logic_vector(1 downto 0);  -- Operation type (bits 7-6)
     signal Sub_Op : std_logic_vector(1 downto 0);   -- Sub-operation (bits 5-4)
-    signal Dest_Reg : register_address;             -- Destination register (bits 3-2)
-    signal Src_Addr : std_logic_vector(1 downto 0); -- Source/Address bits (bits 1-0)
+    signal Dest_Reg : register_address;             -- Destination register (bits 3-2) or field bits
+    signal Addr_Lo : std_logic_vector(1 downto 0);  -- Address/register low bits (bits 1-0)
     
 begin
     -- Decode instruction bits
     Op_Type <= I(7 downto 6);
     Sub_Op <= I(5 downto 4);
     Dest_Reg <= I(3 downto 2);
-    Src_Addr <= I(1 downto 0);
+    Addr_Lo <= I(1 downto 0);
     
-    decode : process(Op_Type, Sub_Op, Dest_Reg, Src_Addr, I, RCJump)
+    decode : process(Op_Type, Sub_Op, Dest_Reg, Addr_Lo, I, Zero_Flag, Carry_Flag, Negative_Flag)
     begin
         -- Default assignments
         J <= '0';
@@ -59,10 +69,11 @@ begin
         case Op_Type is
             
             -- ARITHMETIC OPERATIONS (00)
+            -- Bits [5:4]: ALU sub-op, Bits [3:2]: Dest/Src1 Reg, Bits [1:0]: Src2 Reg
             when ARITHMETIC_OP =>
                 REn <= Dest_Reg;        -- Destination register
                 RSA <= Dest_Reg;        -- First operand from destination register
-                RSB <= Src_Addr;        -- Second operand from source
+                RSB <= Addr_Lo;         -- Second operand from source register (bits 1-0)
                 L <= Register_Load;     -- Load from ALU result
                 
                 case Sub_Op is
@@ -78,64 +89,50 @@ begin
                         OpS <= AU_ADD_SIGNAL;
                 end case;
             
-            -- MOVE OPERATIONS (01)
-            when MOVE_OP =>
-                REn <= Dest_Reg;    -- Destination register
-                
-                case Sub_Op is
-                    -- Load Immediate (00): Load 4-bit immediate into register
-                    when LOAD_IMM =>
-                        IM <= (7 downto 4 => '0') & Src_Addr & "00";  -- 4-bit immediate
-                        L <= Immediate_Load;
-                        RAM_WE <= '0';
-                        RAM_OE <= '0';
-                    
-                    -- Load from RAM (01): Load from RAM address
-                    when LOAD_RAM =>
-                        L <= RAM_Load;
-                        RAM_Addr <= (3 downto 2 => '0') & Src_Addr;
-                        RAM_WE <= '0';
-                        RAM_OE <= '1';  -- Enable RAM read
-                    
-                    -- Store to RAM (10): Store register to RAM
-                    when STORE_RAM =>
-                        RSA <= Dest_Reg;        -- Source register to store
-                        RAM_Addr <= (3 downto 2 => '0') & Src_Addr;
-                        RAM_WE <= '1';          -- Enable RAM write
-                        RAM_OE <= '0';
-                        REn <= "00";            -- Don't modify registers
-                    
-                    -- Load from Register (11): Copy register to register
-                    when LOAD_REG =>
-                        RSA <= Src_Addr;        -- Source register
-                        L <= Register_Load;
-                    
-                    when others =>
-                        null;
-                end case;
+            -- LOAD OPERATIONS (01)
+            -- Bits [5:4]: Destination Register, Bits [3:0]: RAM Address
+            when LOAD_OP =>
+                REn <= Sub_Op;          -- Destination register (from bits [5:4])
+                RAM_Addr <= I(3 downto 0);  -- RAM address (bits [3:0])
+                RAM_OE <= '1';          -- Enable RAM read
+                RAM_WE <= '0';          -- No write
+                L <= RAM_Load;          -- Load from RAM
+            
+            -- STORE OPERATIONS (10)
+            -- Bits [5:4]: Source Register, Bits [3:0]: RAM Address
+            when STORE_OP =>
+                RSA <= Sub_Op;          -- Source register (from bits [5:4])
+                RAM_Addr <= I(3 downto 0);  -- RAM address (bits [3:0])
+                RAM_WE <= '1';          -- Enable RAM write
+                RAM_OE <= '0';          -- No read
+                REn <= (others => '0'); -- Don't write to registers
             
             -- JUMP OPERATIONS (11)
+            -- Bits [5:4]: Jump Condition, Bits [3:0]: Jump Address
             when JUMP_OP =>
-                J <= '1';
-                JA <= Sub_Op & Src_Addr & "00";  -- 4-bit jump address (instruction address)
+                JA <= I(3 downto 0);    -- Jump address (bits [3:0])
                 
-                -- Check condition if Sub_Op is not "00"
-                if Sub_Op /= "00" then
-                    -- Conditional jump based on Zero flag
-                    if Sub_Op = "01" and RCJump = x"00" then
-                        -- Jump if Zero
+                -- Decode jump condition (bits [5:4])
+                case Sub_Op is
+                    when JUMP_UNCOND =>
+                        -- Unconditional jump (00)
                         J <= '1';
-                    elsif Sub_Op = "10" and RCJump /= x"00" then
-                        -- Jump if Not Zero
-                        J <= '1';
-                    else
+                    when JUMP_ZERO =>
+                        -- Jump if Zero Flag is set (01)
+                        J <= Zero_Flag;
+                    when JUMP_CARRY =>
+                        -- Jump if Carry Flag is set (10)
+                        J <= Carry_Flag;
+                    when JUMP_NEGATIVE =>
+                        -- Jump if Negative Flag is set (11)
+                        J <= Negative_Flag;
+                    when others =>
                         J <= '0';
-                    end if;
-                end if;
+                end case;
             
-            -- NOP or undefined (10)
             when others =>
-                null;  -- No operation
+                -- Undefined opcode - no operation
+                null;
                 
         end case;
     end process decode;

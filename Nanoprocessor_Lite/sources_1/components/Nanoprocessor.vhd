@@ -47,6 +47,12 @@ signal Reset : std_logic;
     signal Register_Enable : register_address;     -- Register write enable
     signal Selected_Load : data_bus;               -- From Load Selector
     
+    -- ALU Flags for jump conditions
+    signal ALU_Zero : std_logic;                   -- Zero flag
+    signal ALU_Overflow : std_logic;               -- Overflow flag
+    signal ALU_Carry : std_logic;                  -- Carry flag
+    signal ALU_Negative : std_logic;               -- Negative flag
+    
     -- RAM signals
     signal RAM_Addr_Internal : ram_address;        -- RAM address
     signal RAM_Din : data_bus;                     -- RAM data input
@@ -95,6 +101,9 @@ begin
     Instruction_Decoder : IDecoder port map(
         I => Instruction,
         RCJump => Register_Data(0),  -- Use R0 for conditional jumps
+        Zero_Flag => ALU_Zero,
+        Carry_Flag => ALU_Carry,
+        Negative_Flag => ALU_Negative,
         REn => Register_Enable,
         RSA => OprASelect,
         RSB => OprBSelect,
@@ -147,9 +156,14 @@ begin
         I2 => OprBData,
         O => Operation_Res,
         Overflow => Overflow,
-        Zero => Zero,
+        Zero => ALU_Zero,
+        Carry => ALU_Carry,
+        Negative => ALU_Negative,
         Operation => AddSubSelect
     );
+    
+    -- Expose ALU Zero flag to top-level output as well
+    Zero <= ALU_Zero;
     
     -- Register Bank (4 registers × 8 bits)
     Register_Bank_0 : Register_Bank port map(

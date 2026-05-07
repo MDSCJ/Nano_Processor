@@ -12,6 +12,8 @@ entity AU is
         O : out data_bus;           -- 8-bit result (lower 8 bits)
         Overflow : out std_logic;   -- Overflow flag
         Zero : out std_logic;       -- Zero flag
+        Carry : out std_logic;      -- Carry flag (for jump conditions)
+        Negative : out std_logic;   -- Negative flag (MSB of result)
         Operation : in Operation_Sel -- 2-bit operation select
     );
 end AU;
@@ -108,6 +110,30 @@ begin
         else
             Zero <= '0';
         end if;
+    end process;
+    
+    -- Negative flag: Set if MSB (bit 7) of result is 1 (negative in signed representation)
+    Negative <= result_8(7);
+    
+    -- Carry flag: Set if operation produced carry out (result > 255 for add/mul, borrow for sub)
+    process(Operation, result, I1, I2)
+    begin
+        case Operation is
+            when AU_ADD_SIGNAL =>
+                -- Carry if result exceeds 8-bit (bits 15-8 non-zero for unsigned add)
+                Carry <= '1' when result(15 downto 8) /= "00000000" else '0';
+            when AU_SUB_SIGNAL =>
+                -- Carry/Borrow if I1 < I2 (underflow)
+                Carry <= '1' when unsigned(I1) < unsigned(I2) else '0';
+            when AU_MUL_SIGNAL =>
+                -- Carry if result exceeds 8 bits
+                Carry <= '1' when result(15 downto 8) /= "00000000" else '0';
+            when AU_DIV_SIGNAL =>
+                -- No carry for division
+                Carry <= '0';
+            when others =>
+                Carry <= '0';
+        end case;
     end process;
     
     O <= result_8;

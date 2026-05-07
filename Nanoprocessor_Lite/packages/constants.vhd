@@ -13,11 +13,11 @@ package Constants is
     constant RAM_Load : std_logic := '0'; -- Load from RAM
 
     -- 8-BIT INSTRUCTION FORMAT
-    -- Bits 7-6: Operation Type
-    constant ARITHMETIC_OP : std_logic_vector(1 downto 0) := "00";
-    constant MOVE_OP : std_logic_vector(1 downto 0) := "01";
-    constant JUMP_OP : std_logic_vector(1 downto 0) := "11";
-    constant NOP_OP : std_logic_vector(1 downto 0) := "10";
+    -- Bits 7-6: Primary Opcode
+    constant ARITHMETIC_OP : std_logic_vector(1 downto 0) := "00";  -- ALU operation
+    constant LOAD_OP : std_logic_vector(1 downto 0) := "01";        -- Load from RAM
+    constant STORE_OP : std_logic_vector(1 downto 0) := "10";       -- Store to RAM
+    constant JUMP_OP : std_logic_vector(1 downto 0) := "11";        -- Jump operation
 
     -- Arithmetic Sub-operations (bits 5-4)
     constant ADD_SUBOP : std_logic_vector(1 downto 0) := "00";
@@ -25,10 +25,10 @@ package Constants is
     constant MUL_SUBOP : std_logic_vector(1 downto 0) := "10";
     constant DIV_SUBOP : std_logic_vector(1 downto 0) := "11";
 
-    -- Move Sub-operations (bits 5-4)
-    constant LOAD_IMM : std_logic_vector(1 downto 0) := "00";  -- Load immediate
-    constant LOAD_RAM : std_logic_vector(1 downto 0) := "01";  -- Load from RAM
-    constant STORE_RAM : std_logic_vector(1 downto 0) := "10"; -- Store to RAM
-    constant LOAD_REG : std_logic_vector(1 downto 0) := "11";  -- Load from register
+    -- Jump Condition Sub-operations (bits 5-4)
+    constant JUMP_UNCOND : std_logic_vector(1 downto 0) := "00";    -- Unconditional Jump
+    constant JUMP_ZERO : std_logic_vector(1 downto 0) := "01";      -- Jump if Zero Flag set
+    constant JUMP_CARRY : std_logic_vector(1 downto 0) := "10";     -- Jump if Carry Flag set
+    constant JUMP_NEGATIVE : std_logic_vector(1 downto 0) := "11";  -- Jump if Negative Flag set
 
 end package Constants;
