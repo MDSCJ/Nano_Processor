@@ -39,15 +39,21 @@ begin
     process
     begin
         -- Selecting 1 digit from a pair of digits in the index numbers
-        -- 210479L and 210344U using the MUX
-        InA <= "011"; -- 3
-        InB <= "100"; -- 4
+        -- 240278 and 240238 using the MUX
+        InA <= "010"; -- 2 (from 240278)
+        InB <= "100"; -- 4 (from 240278)
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        InA <= "100"; -- 4
-        InB <= "111"; -- 7
+        InA <= "111"; -- 7 (from 240278)
+        InB <= "011"; -- 3 (from 240238)
+        S <= '0';
+        wait for 10 ns;
+        S <= '1';
+        wait for 10 ns;
+        InA <= "101"; -- 5 (from 240255)
+        InB <= "010"; -- 2 (from 240238)
         S <= '0';
         wait for 10 ns;
         S <= '1';

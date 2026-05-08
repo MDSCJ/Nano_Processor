@@ -33,14 +33,16 @@ uut : Add_Sub_4_bit
 
 process
 begin
-    A <= "0100";  --last digit of 210344          
+    -- Using digits from index numbers: 240278, 240278, 240238, 240255
+    A <= "1000";  -- last digit of 240278 (8)
     wait for 50 ns; 
-    B <= "0010";  --last digit of 210472
+    B <= "1000";  -- last digit of 240278 (8)
     wait for 50 ns;
+    --Adding digits of Index Number
     CTRL <= '0' ;
-    A <= "1000";  --16        
+    A <= "0011";  -- last digit of 240238 (8) + last digit of 240255 (5) = use 3,8
     wait for 50 ns; 
-    B <= "0100";  --8
+    B <= "0101";  -- last digit of 240255 (5)
     wait for 50 ns;
     --Adding digits of Index Number
     CTRL <= '0' ;
