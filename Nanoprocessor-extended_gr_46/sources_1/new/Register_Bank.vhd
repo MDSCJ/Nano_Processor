@@ -46,3 +46,4 @@ begin
     Reg6 <= Regs(6);
     Reg7 <= Regs(7);
 end Behavioral;
+
