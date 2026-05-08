@@ -52,20 +52,25 @@ begin
 
     stim: process
     begin
-        -- following values are from index numbers 210479 L and 210344U
-        -- 00210
+        -- following values are from index numbers 240278 and 240238
+        -- 00240
         D(7) <= "0000"; D(6) <= "0000";
-        D(5) <= "0010"; D(4) <= "0001";
+        D(5) <= "0010"; D(4) <= "0100";
         D(3) <= "0000";
         
-        -- 479
-        D(2) <= "0100";
-        D(1) <= "0111"; D(0) <= "1001";
+        -- 278
+        D(2) <= "0010";
+        D(1) <= "0111"; D(0) <= "1000";
         wait for period*8;
         
-        -- 344
-        D(2) <= "0011";
-        D(1) <= "0100"; D(0) <= "0100";
+        -- 238
+        D(2) <= "0010";
+        D(1) <= "0011"; D(0) <= "1000";
+        wait for period*8;
+
+        -- 255
+        D(2) <= "0010";
+        D(1) <= "0101"; D(0) <= "0101";
         wait for period*8;
     end process;
 

@@ -37,29 +37,28 @@ begin
 
     process
     begin
-        -- Selecting last 3 digits of index numbers
-        -- 210479L and 210344U using the MUX
-        InA <= "0011"; -- 3 in binary
-        InB <= "0100"; -- 4 in binary
+        -- Selecting digits from index numbers
+        -- 240278 and 240238 using the MUX
+        InA <= "0010"; -- 2 (from 240278)
+        InB <= "0100"; -- 4 (from 240278)
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        InA <= "0100"; -- 4 in binary
-        InB <= "0111"; -- 7 in binary
+        InA <= "0111"; -- 7 (from 240278)
+        InB <= "1000"; -- 8 (from 240278)
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        InA <= "0100"; -- 4 in binary
-        InB <= "1001"; -- 9 in binary
+        InA <= "0011"; -- 3 (from 240238)
+        InB <= "1000"; -- 8 (from 240238)
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        -- Other test case
-        InA <= "1010"; -- 10 in binary
-        InB <= "1010"; -- 10 in binary
+        InA <= "0101"; -- 5 (from 240255)
+        InB <= "0101"; -- 5 (from 240255)
         S <= '0';
         wait for 10 ns;
         S <= '1';
