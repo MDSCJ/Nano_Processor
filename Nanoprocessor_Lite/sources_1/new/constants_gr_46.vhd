@@ -27,8 +27,8 @@ package Constants_gr_46 is
     constant clk_half_period : time := clk_period / 2;
 
     constant Immediate_Load : std_logic := '0';
-    constant Register_Load : std_logic := '1';
-    constant RAM_Load : std_logic := '0';
+    constant Register_Load : std_logic := '0';  -- '0' selects A=AU result in Load_Selector MUX
+    constant RAM_Load      : std_logic := '1';  -- '1' selects B=RAM data in Load_Selector MUX
 
     constant ARITHMETIC_OP : std_logic_vector(1 downto 0) := "00";
     constant LOAD_OP : std_logic_vector(1 downto 0) := "01";
