@@ -90,7 +90,7 @@ begin
         RAM_Dout => RAM_Dout_Internal, RAM_WE => RAM_WE, RAM_OE => RAM_OE);
 
     Load_Selector_0 : Load_Selector_gr_46 port map(
-        LS => Load_Selection, IM => Immediate_Value, R => RAM_Dout_Internal, O => Selected_Load);
+        LS => Load_Selection, IM => Operation_Res, R => RAM_Dout_Internal, O => Selected_Load);
 
     Opr_Selector_A : Opr_Selector_gr_46 port map(
         Control => OprASelect, Data => Register_Data, Selected => OprAData);
