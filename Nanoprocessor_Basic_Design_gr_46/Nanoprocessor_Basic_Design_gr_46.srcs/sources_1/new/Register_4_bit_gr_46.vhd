@@ -44,14 +44,15 @@ architecture Behavioral of Register_4_bit_gr_46 is
 begin
     process (Clk) begin
         if (rising_edge(Clk)) then
-            if Reset = '0' then
-                 if EN = '1' then
-                    Q <= D;
-                 end if;
-            else
+            if Reset = '1' then 
                 Q <= "0000";
+            elsif EN = '1' then
+                Q <= D;
             end if;
          end if;
     end process;
+      
+end Behavioral;
+
       
 end Behavioral;
