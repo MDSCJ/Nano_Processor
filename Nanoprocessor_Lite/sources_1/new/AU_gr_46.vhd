@@ -143,10 +143,16 @@ begin
             when AU_ADD_SIGNAL =>
                 Carry <= carry_out;
             when AU_SUB_SIGNAL =>
-                Carry <= '1' when unsigned(I1) < unsigned(I2) else '0';
-            when AU_MUL_SIGNAL =>
-                Carry <= '1' when mul_result(15 downto 8) /= "00000000" else '0';
-            when others =>
+                if unsigned(I1) < unsigned(I2) then
+                    Carry <= '1';
+                else
+                    Carry <= '0';
+                end if;            when AU_MUL_SIGNAL =>
+                if mul_result(15 downto 8) /= "00000000" then
+                    Carry <= '1';
+                else
+                    Carry <= '0';
+                end if;            when others =>
                 Carry <= '0';
         end case;
     end process;

@@ -37,8 +37,8 @@ end Design_gr_46;
 architecture Behavioral of Design_gr_46 is
 
     component Slow_Clk_gr_46 is
-        Port ( Clk_in : in STD_LOGIC;
-               Clk_out : out STD_LOGIC);
+         Port ( ClkIn : in STD_LOGIC;
+             Clk_out : out STD_LOGIC);
     end component;
 
     component Nanoprocessor_gr_46 is
@@ -65,7 +65,7 @@ begin
     Display <= "1110";
 
     Slow_Clock_0 : Slow_Clk_gr_46 port map(
-        Clk_in => ClkIn, Clk_out => Slow_Clock);
+        ClkIn => ClkIn, Clk_out => Slow_Clock);
 
     Nanoprocessor_0 : Nanoprocessor_gr_46 port map(
         Clock => Slow_Clock, Reset => ResetIn,
