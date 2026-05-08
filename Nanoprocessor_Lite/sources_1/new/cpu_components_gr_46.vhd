@@ -2,13 +2,13 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/08/2026 05:30:00 PM
+-- Create Date: 04/25/2026 05:10:18 PM
 -- Design Name: 
--- Module Name: Cpu_Components_gr_46 - Package
+-- Module Name: cpu_components_gr_46 - Behavioral
 -- Project Name: Nanoprocessor_Lite
 -- Target Devices: Basys3
 -- Tool Versions: 
--- Description: CPU component declarations
+-- Description: 
 -- 
 -- Dependencies: 
 -- 

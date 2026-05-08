@@ -2,13 +2,13 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/08/2026 05:30:00 PM
+-- Create Date: 04/25/2026 02:45:10 PM
 -- Design Name: 
--- Module Name: Constants_gr_46 - Package
+-- Module Name: constants_gr_46 - Behavioral
 -- Project Name: Nanoprocessor_Lite
 -- Target Devices: Basys3
 -- Tool Versions: 
--- Description: System constants and opcode definitions
+-- Description: 
 -- 
 -- Dependencies: 
 -- 

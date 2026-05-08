@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/29/2026 03:25:57 PM
+-- Design Name: 
 -- Module Name: Slow_Clk_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 

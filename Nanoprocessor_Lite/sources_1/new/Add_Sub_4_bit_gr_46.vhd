@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/26/2026 03:55:28 PM
+-- Design Name: 
 -- Module Name: Add_Sub_4_bit_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: 4-bit Adder-Subtractor using RCA_4
+-- 
+-- Dependencies: RCA_4_gr_46
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.Adders_gr_46.RCA_4_gr_46;
@@ -23,8 +40,7 @@ begin
     B_inter(1) <= B_AS(1) XOR CTRL;
     B_inter(2) <= B_AS(2) XOR CTRL;
     B_inter(3) <= B_AS(3) XOR CTRL;
-    process (S_inter)
-    begin
+    process (S_inter) begin
         if S_inter = "0000" then Zero <= '1'; else Zero <= '0'; end if;
     end process;
     S_AS <= S_inter;

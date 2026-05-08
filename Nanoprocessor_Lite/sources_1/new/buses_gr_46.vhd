@@ -2,13 +2,13 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/08/2026 05:30:00 PM
+-- Create Date: 04/25/2026 02:15:30 PM
 -- Design Name: 
--- Module Name: Buses_gr_46 - Package
+-- Module Name: buses_gr_46 - Behavioral
 -- Project Name: Nanoprocessor_Lite
 -- Target Devices: Basys3
 -- Tool Versions: 
--- Description: Bus type definitions for 8-bit Nanoprocessor
+-- Description: 
 -- 
 -- Dependencies: 
 -- 

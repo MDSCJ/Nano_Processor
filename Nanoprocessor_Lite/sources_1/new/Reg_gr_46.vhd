@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/27/2026 11:25:19 AM
+-- Design Name: 
 -- Module Name: Reg_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.Logic_Components_gr_46.D_FF_gr_46;

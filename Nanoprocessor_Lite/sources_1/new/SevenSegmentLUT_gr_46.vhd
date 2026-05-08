@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/29/2026 04:45:03 PM
+-- Design Name: 
 -- Module Name: SevenSegmentLUT_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 

@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/08/2026 05:30:00 PM
+-- Create Date: 04/25/2026 04:40:55 PM
 -- Design Name: 
 -- Module Name: Logic_Components_gr_46 - Package
 -- Project Name: Nanoprocessor_Lite
@@ -20,18 +20,9 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use work.Buses_gr_46.buses_8_4;
+use work.Buses_gr_46.all;
 
 package Logic_Components_gr_46 is
-
-    component Add_Sub_4_bit_gr_46 is
-        Port(A_AS : in STD_LOGIC_VECTOR (3 DOWNTO 0);
-         B_AS : in STD_LOGIC_VECTOR (3 DOWNTO 0);
-         CTRL : in STD_LOGIC;
-         S_AS : out STD_LOGIC_VECTOR(3 DOWNTO 0);
-         Zero : out STD_LOGIC;
-         OverFlow : out STD_LOGIC);
-    end component;
 
     component Mux_2_N_gr_46 is
         generic(
@@ -45,17 +36,12 @@ package Logic_Components_gr_46 is
         );
     end component;
 
-    component Mux_8_4_gr_46 is
-        port (S : in std_logic_vector (2 downto 0);
-                D : in buses_8_4;
-                EN : in std_logic := '1';
-                Y : out std_logic_vector(3 downto 0));
-    end component;
-
-    component Decoder_3_to_8_gr_46 is
-        Port (I : in STD_LOGIC_VECTOR(2 downto 0);
-            EN : in STD_LOGIC;
-            Y : out STD_LOGIC_VECTOR (7 downto 0));
+    component Mux_4_to_1_8bit_gr_46 is
+        port(
+            S : in std_logic_vector(1 downto 0);
+            D : in data_buses;
+            Y : out data_bus
+        );
     end component;
 
     component Decoder_2_to_4_gr_46

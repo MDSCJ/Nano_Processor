@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/28/2026 04:20:33 PM
+-- Design Name: 
 -- Module Name: PC_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.Buses_gr_46.instruction_address;

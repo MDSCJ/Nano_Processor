@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/26/2026 10:05:42 AM
+-- Design Name: 
 -- Module Name: FA_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: Full Adder using two Half Adders
+-- 
+-- Dependencies: HA_gr_46
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.Adders_gr_46.HA_gr_46;
@@ -14,7 +31,7 @@ entity FA_gr_46 is
 end FA_gr_46;
 
 architecture Behavioral of FA_gr_46 is
-SIGNAL HA0_S, HA0_C, HA1_S, HA1_C : STD_LOGIC;
+    SIGNAL HA0_S, HA0_C, HA1_S, HA1_C : STD_LOGIC;
 begin
     HA_0 : HA_gr_46 port map(A => A, B => B, S => HA0_S, C => HA0_C);
     HA_1 : HA_gr_46 port map(A => HA0_S, B => C_in, S => HA1_S, C => HA1_C);

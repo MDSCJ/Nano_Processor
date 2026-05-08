@@ -1,6 +1,23 @@
 ----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/29/2026 02:10:39 PM
+-- Design Name: 
 -- Module Name: Opr_Selector_gr_46 - Behavioral
+-- Project Name: Nanoprocessor_Lite
+-- Target Devices: Basys3
+-- Tool Versions: 
+-- Description: Operand Selector using Mux_4_to_1_8bit for register data selection
+-- 
+-- Dependencies: Mux_4_to_1_8bit_gr_46
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.Buses_gr_46.all;
@@ -12,14 +29,12 @@ entity Opr_Selector_gr_46 is
 end Opr_Selector_gr_46;
 
 architecture Behavioral of Opr_Selector_gr_46 is
+    component Mux_4_to_1_8bit_gr_46 is
+        port(S : in std_logic_vector(1 downto 0);
+             D : in data_buses;
+             Y : out data_bus);
+    end component;
 begin
-    process(Control, Data) begin
-        case Control is
-            when "00" => Selected <= Data(0);
-            when "01" => Selected <= Data(1);
-            when "10" => Selected <= Data(2);
-            when "11" => Selected <= Data(3);
-            when others => Selected <= (others => '0');
-        end case;
-    end process;
+    Mux_inst : Mux_4_to_1_8bit_gr_46
+        port map(S => Control, D => Data, Y => Selected);
 end Behavioral;
