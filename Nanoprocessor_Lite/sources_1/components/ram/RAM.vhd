@@ -48,6 +48,6 @@ begin
     
     -- Asynchronous read
     RAM_Dout <= ram_mem(to_integer(unsigned(RAM_Addr))) when RAM_OE = '1' else
-                (others => 'Z');
+                (others => '0');
     
 end Behavioral;

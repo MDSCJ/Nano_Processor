@@ -10,12 +10,14 @@ architecture Behavioral of TB_Design is
     component Design is
         port(
             ClkIn : in std_logic; -- Clock
-            ResetIn : in std_logic; -- Reset,
+            ResetIn : in std_logic; -- Reset
             Overflow: out std_logic; -- Overflow Flag
             Zero: out std_logic; -- Zero Flag
             Display: out std_logic_vector(3 downto 0);
             seg: out std_logic_vector(6 downto 0); -- Seven Segment Display
-            led: out std_logic_vector(3 downto 0) -- Result
+            led: out std_logic_vector(7 downto 0); -- 8 LEDs for data output
+            ram_addr_led: out std_logic_vector(3 downto 0); -- RAM address display
+            ram_data_led: out std_logic_vector(7 downto 0)  -- RAM data display
         );
     end component;
 
@@ -26,7 +28,9 @@ architecture Behavioral of TB_Design is
     signal Zero: std_logic;
     signal Display: std_logic_vector(3 downto 0);
     signal seg: std_logic_vector(6 downto 0);
-    signal led: std_logic_vector(3 downto 0);
+    signal led: std_logic_vector(7 downto 0);
+    signal ram_addr_led: std_logic_vector(3 downto 0);
+    signal ram_data_led: std_logic_vector(7 downto 0);
 
 begin
 
@@ -38,7 +42,9 @@ begin
         Zero => Zero,
         Display => Display,
         seg => seg,
-        led => led
+        led => led,
+        ram_addr_led => ram_addr_led,
+        ram_data_led => ram_data_led
     );
 
     -- Clock process definitions
@@ -59,7 +65,5 @@ begin
         ResetIn <= '0';
         wait;
     end process;
-
-
 
 end Behavioral;

@@ -19,7 +19,7 @@ architecture Behavioral of TB_Nanoprocessor is
     signal Overflow: std_logic;
     signal Zero : std_logic;
     
-    signal Next_Address : instruction_address; -- From PC Incremeter to Address Selector
+    signal Next_Address : instruction_address; -- From PC Incrementer to Address Selector
     signal Current_Address : instruction_address; -- From PC to ROM
     signal Selected_Address : instruction_address; -- From Address Selector to PC
     signal Jump_Address : instruction_address; -- From Instruction Decoder to Address Selector
@@ -37,6 +37,18 @@ architecture Behavioral of TB_Nanoprocessor is
     signal AddSubSelect : Operation_Sel; -- From Instruction Decoder to AU
     signal Register_Enable : register_address; -- From Instruction Decoder to Register Bank
     signal Selected_Load : data_bus; -- From Load Selector to Register Bank
+    
+    -- ALU Flags
+    signal ALU_Zero : std_logic;
+    signal ALU_Overflow : std_logic;
+    signal ALU_Carry : std_logic;
+    signal ALU_Negative : std_logic;
+    
+    -- RAM signals
+    signal RAM_Addr_Internal : ram_address;
+    signal RAM_Dout_Internal : data_bus;
+    signal RAM_WE : std_logic;
+    signal RAM_OE : std_logic;
     
     begin
     
@@ -72,21 +84,38 @@ architecture Behavioral of TB_Nanoprocessor is
         Instruction_Decoder : IDecoder port map(
             I => Instruction, -- From Program ROM
             RCJump => OprAData, -- From Operand Selector A
-            REN => Register_Enable, -- To Register Bank 
+            Zero_Flag => ALU_Zero, -- From AU
+            Carry_Flag => ALU_Carry, -- From AU
+            Negative_Flag => ALU_Negative, -- From AU
+            REn => Register_Enable, -- To Register Bank 
             RSA => OprASelect, -- To Operand Selector A
             RSB => OprBSelect, -- To Operand Selector B
             OpS => AddSubSelect, -- To AU
             IM => Immediate_Value, -- To Load Selector
             J => Jump_Flag, -- To Address Selector
             JA => Jump_Address, -- To Address Selector
-            L => Load_Selection -- To Load Selector
+            L => Load_Selection, -- To Load Selector
+            RAM_Addr => RAM_Addr_Internal, -- To RAM
+            RAM_WE => RAM_WE, -- To RAM
+            RAM_OE => RAM_OE -- To RAM
+        );
+    
+        -- RAM Module
+        RAM_Module : entity work.RAM port map(
+            Clk => Clock,
+            Res => Reset,
+            RAM_Addr => RAM_Addr_Internal,
+            RAM_Din => OprAData,
+            RAM_Dout => RAM_Dout_Internal,
+            RAM_WE => RAM_WE,
+            RAM_OE => RAM_OE
         );
     
         -- Load Selector
         Load_Selector_0 : Load_Selector port map(
             LS => Load_Selection, -- From Instruction Decoder
             IM => Immediate_Value, -- From Instruction Decoder
-            R => Operation_Res, -- From AU
+            R => RAM_Dout_Internal, -- From RAM
             O => Selected_Load -- To Register Bank
         );
     
@@ -109,8 +138,10 @@ architecture Behavioral of TB_Nanoprocessor is
             I1 => OprAData, -- From Operand Selector A
             I2 => OprBData, -- From Operand Selector B
             O => Operation_Res, -- To Load Selector
-            Overflow => Overflow, -- To Overflow Flag
-            Zero => Zero, -- To Zero Flag
+            Overflow => ALU_Overflow, -- Overflow Flag
+            Zero => ALU_Zero, -- Zero Flag
+            Carry => ALU_Carry, -- Carry Flag
+            Negative => ALU_Negative, -- Negative Flag
             Operation => AddSubSelect -- From Instruction Decoder
         );
     
@@ -123,7 +154,10 @@ architecture Behavioral of TB_Nanoprocessor is
             Data_Buses => Register_Data -- To Operand Selectors
         );
     
-        Data <= Register_Data(7); -- Last Register Data
+        -- Expose top-level signals
+        Overflow <= ALU_Overflow;
+        Zero <= ALU_Zero;
+        Data <= Register_Data(3); -- Last Register Data (R3)
 
         clk_process : process
         begin
@@ -143,4 +177,3 @@ architecture Behavioral of TB_Nanoprocessor is
 
         
     end Behavioral;
-    

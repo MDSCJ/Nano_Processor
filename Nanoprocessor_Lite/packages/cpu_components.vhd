@@ -11,14 +11,20 @@ package Cpu_Components is
         port(
             I: in instruction_bus; -- Instruction
             RCJump: in data_bus; -- Register Check for Jump
+            Zero_Flag: in std_logic; -- Zero flag from ALU
+            Carry_Flag: in std_logic; -- Carry flag from ALU
+            Negative_Flag: in std_logic; -- Negative flag from ALU
             REn: out register_address; -- Register Enable
             RSA: out register_address; -- Register Select A
             RSB: out register_address; -- Register Select B
             OpS: out Operation_Sel; -- Adder Subtractor Select
             IM: out data_bus; -- Immediate value
-            J:out std_logic := '0'; -- Jump flag
-            JA: out instruction_address; -- Jump Address,
-            L: out std_logic -- Load Select
+            J: out std_logic := '0'; -- Jump flag
+            JA: out instruction_address; -- Jump Address
+            L: out std_logic; -- Load Select
+            RAM_Addr: out ram_address; -- RAM address
+            RAM_WE: out std_logic; -- RAM Write Enable
+            RAM_OE: out std_logic -- RAM Output Enable
         );
     end component;
 
@@ -98,6 +104,8 @@ package Cpu_Components is
             O : out data_bus;
             Overflow : out std_logic;
             Zero : out std_logic := '0';
+            Carry : out std_logic;
+            Negative : out std_logic;
             Operation : in Operation_Sel
         );
     end component;

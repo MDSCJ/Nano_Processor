@@ -178,34 +178,3 @@ begin
     
 end Behavioral;
 
-        );
-    
-        -- Operand Selector (Multiplexer) B
-        Opr_Selector_B : Opr_Selector port map(
-            Control => OprBSelect, -- From Instruction Decoder
-            Data => Register_Data, -- From Register Bank
-            Selected => OprBData -- To AU
-        );
-    
-        -- Arithmetic Unit
-        Arithmetic_Unit_0 : AU port map(
-            I1 => OprAData, -- From Operand Selector A
-            I2 => OprBData, -- From Operand Selector B
-            O => Operation_Res, -- To Load Selector
-            Overflow => Overflow, -- To Overflow Flag
-            Zero => Zero, -- To Zero Flag
-            Operation => AddSubSelect -- From Instruction Decoder
-        );
-    
-        -- Register Bank
-        Register_Bank_0 : Register_Bank port map(
-            Reg_EN => Register_Enable, -- From Instruction Decoder
-            Res => Reset, -- Reset
-            Clk => Clock,
-            Data => Selected_Load, -- From Load Selector
-            Data_Buses => Register_Data -- To Operand Selectors
-        );
-    
-        Data <= Register_Data(7); -- Last Register Data
-        
-    end Behavioral;

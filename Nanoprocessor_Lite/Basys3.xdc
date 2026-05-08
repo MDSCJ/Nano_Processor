@@ -54,12 +54,12 @@ set_property PACKAGE_PIN V19 [get_ports {led[3]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 set_property PACKAGE_PIN W18 [get_ports {led[4]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {led[4]}]
-#set_property PACKAGE_PIN U15 [get_ports {led[5]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[5]}]
-#set_property PACKAGE_PIN U14 [get_ports {led[6]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[6]}]
-#set_property PACKAGE_PIN V14 [get_ports {led[7]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[7]}]
+set_property PACKAGE_PIN U15 [get_ports {led[5]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {led[5]}]
+set_property PACKAGE_PIN U14 [get_ports {led[6]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {led[6]}]
+set_property PACKAGE_PIN V14 [get_ports {led[7]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {led[7]}]
 #set_property PACKAGE_PIN V13 [get_ports {led[8]}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {led[8]}]
 #set_property PACKAGE_PIN V3 [get_ports {led[9]}]
@@ -76,6 +76,10 @@ set_property PACKAGE_PIN P1 [get_ports {Overflow}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {Overflow}]
 set_property PACKAGE_PIN L1 [get_ports {Zero}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {Zero}]
+
+## NOTE: ram_addr_led and ram_data_led are debug-only signals.
+## Not enough physical LEDs remain on Basys3 to map them.
+## These ports will be left unconnected (Vivado will issue a warning).
 
 
 #7 segment display

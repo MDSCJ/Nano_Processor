@@ -9,16 +9,16 @@ end TB_PC;
 architecture Behavioral of TB_PC is
 
 component PC is
-    port ( A : in STD_LOGIC_VECTOR(2 downto 0);
+    port ( A : in STD_LOGIC_VECTOR(3 downto 0);
     Res : in STD_LOGIC;
     Clk : in STD_LOGIC;
-    M : out STD_LOGIC_VECTOR(2 downto 0));
+    M : out STD_LOGIC_VECTOR(3 downto 0));
 end component;
 
-signal A : STD_LOGIC_VECTOR(2 downto 0);
+signal A : STD_LOGIC_VECTOR(3 downto 0);
 signal Res : STD_LOGIC;
 signal Clk : STD_LOGIC;
-signal M : STD_LOGIC_VECTOR(2 downto 0);
+signal M : STD_LOGIC_VECTOR(3 downto 0);
 
 constant clk_period : time := 10 ns; --Clock period 10 ns
 
@@ -43,15 +43,17 @@ begin
         Res <= '1';
         wait for clk_period/2;
         Res <= '0';
-        A <= "010"; -- 2
+        A <= "0010"; -- 2
         wait for clk_period;
-        A <= "001"; -- 1
+        A <= "0001"; -- 1
         wait for clk_period;
-        A <= "000"; -- 0
+        A <= "0000"; -- 0
         wait for clk_period;
-        A <= "100"; -- 4
+        A <= "0100"; -- 4
         wait for clk_period;
-        A <= "111"; -- 7
+        A <= "0111"; -- 7
+        wait for clk_period;
+        A <= "1111"; -- 15
         wait for clk_period;
         Res <= '1';
         wait;

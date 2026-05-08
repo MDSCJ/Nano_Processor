@@ -17,10 +17,11 @@ begin
             count <= count + 1;               -- Increment counter
             if(count = 50000000) then         
                 clk_status <= not clk_status; -- Invert clock status
-                Clk_out <= clk_status;
                 count <= 1;                   -- Reset counter
             end if;
         end if;
     end process;
+
+    Clk_out <= clk_status;                    -- Continuous assignment
 
 end Behavioral;

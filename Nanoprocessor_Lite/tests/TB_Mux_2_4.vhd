@@ -6,50 +6,65 @@ entity TB_Mux_2_4 is
 end TB_Mux_2_4;
 
 architecture Behavioral of TB_Mux_2_4 is
-component Mux_2_4 is
+
+-- Uses generic Mux_2_N with N=4
+component Mux_2_N is
+    generic(
+        N : integer
+    );
     port(
         S: in std_logic; -- Control Bit (0 - A, 1 - B)
-        D: in std_logic_vector(7 downto 0); -- Data Buses 
-        Y : out std_logic_vector(3 downto 0)
+        A: in std_logic_vector(N - 1 downto 0); -- Data Bus A
+        B: in std_logic_vector(N - 1 downto 0); -- Data Bus B
+        O : out std_logic_vector(N-1 downto 0)
     );
 end component;
 
 signal S: std_logic;
-signal D: std_logic_vector(7 downto 0);
+signal InA: std_logic_vector(3 downto 0);
+signal InB: std_logic_vector(3 downto 0);
 signal Y: std_logic_vector(3 downto 0);
 
 begin
-    uut : Mux_2_4 port map(
-        S => S,
-        D => D,
-        Y => Y
-    );
+    uut : Mux_2_N 
+        generic map(N => 4)
+        port map(
+            S => S,
+            A => InA,
+            B => InB,
+            O => Y
+        );
 
     process
     begin
         -- Selecting last 3 digits of index numbers
-        -- 210479L and  210344U using the MUX
-        D <= "01000011"; -- 4, 3 in binary
+        -- 210479L and 210344U using the MUX
+        InA <= "0011"; -- 3 in binary
+        InB <= "0100"; -- 4 in binary
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        D <= "01110100"; -- 7, 4 in binary
+        InA <= "0100"; -- 4 in binary
+        InB <= "0111"; -- 7 in binary
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
-        D <= "10010100"; -- 9, 4 in binary
+        InA <= "0100"; -- 4 in binary
+        InB <= "1001"; -- 9 in binary
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
         -- Other test case
-        D <= "10101010"; -- 10, 10 in binary
+        InA <= "1010"; -- 10 in binary
+        InB <= "1010"; -- 10 in binary
         S <= '0';
         wait for 10 ns;
         S <= '1';
         wait for 10 ns;
+        wait;
     end process;
 
 end Behavioral;
